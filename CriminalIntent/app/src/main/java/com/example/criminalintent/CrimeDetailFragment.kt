@@ -13,7 +13,10 @@ import java.util.UUID
 class CrimeDetailFragment : Fragment() {
 
     private lateinit var crime : Crime
-    private lateinit var binding : FragmentCrimeDetailBinding
+    private var _binding :FragmentCrimeDetailBinding? = null
+    //private lateinit var binding : FragmentCrimeDetailBinding
+    private val binding
+        get() = checkNotNull(_binding){"Failed to access binding"}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +34,13 @@ class CrimeDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentCrimeDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
