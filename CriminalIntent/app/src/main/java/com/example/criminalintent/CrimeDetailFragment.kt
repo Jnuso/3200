@@ -14,7 +14,6 @@ class CrimeDetailFragment : Fragment() {
 
     private lateinit var crime : Crime
     private var _binding :FragmentCrimeDetailBinding? = null
-    //private lateinit var binding : FragmentCrimeDetailBinding
     private val binding
         get() = checkNotNull(_binding){"Failed to access binding"}
 
