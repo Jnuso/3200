@@ -34,6 +34,7 @@ class CrimeListFragment : Fragment(){
     ): View? {
         _binding = FragmentCrimeListBinding.inflate(layoutInflater, container, false)
         binding.crimeRecyclerView.layoutManager=LinearLayoutManager(context)
+        //adapter = CrimeListAdapter(crimeListViewModel.crimes)
         return binding.root
     }
 
