@@ -1,0 +1,393 @@
+HW4 RECORDING STEPS
+
+Follow this file from top to bottom. Read only the words under SAY.
+DO tells you what to click or change. LOOK FOR tells you what to point to.
+Pause recording during builds if needed. Aim for a 5 to 10 minute video.
+
+The line numbers below were checked against YOUR CURRENT FILE on October 23.
+They replace the older line numbers in the Word documents.
+Do not add or delete lines while practicing. Only add or remove comment marks.
+If your numbers move, find the method name given beside the numbers.
+
+PROJECT:
+C:\Users\Jnuso\AndroidStudioProjects\3200\CriminalIntent
+
+FRAGMENT FILE:
+C:\Users\Jnuso\AndroidStudioProjects\3200\CriminalIntent\app\src\main\java\com\example\criminalintent\CrimeListFragment.kt
+
+VIEWMODEL FILE:
+C:\Users\Jnuso\AndroidStudioProjects\3200\CriminalIntent\app\src\main\java\com\example\criminalintent\CrimeListViewModel.kt
+
+HOW TO EDIT COMMENTS:
+- Ctrl+G goes to a line in Android Studio.
+- Ctrl+/ adds or removes // on the selected lines.
+- // disables the rest of that one line.
+- /* and */ disable all the code between them.
+- Changing /* to // /* and */ to // */ enables the code between the markers.
+  In the steps below, change those marker lines only. Do not delete the lines.
+- Keep onCreateView and onDestroyView active throughout this recording.
+
+BEFORE EVERY NEW TEST:
+Save your code with Ctrl+S.
+Click Stop in Android Studio to end the previous app run.
+Clear Logcat using the trash icon.
+Click Run to build and launch the version you just selected.
+Keep the emulator visible so you can press Home or Back during the delay.
+Do not use Apply Changes for the fresh-launch tests.
+
+
+STEP 1 - SHOW THE LAUNCHER ICON
+
+DO:
+1. If you already recorded the icon creation process, keep that footage.
+   Continue with Step 2 after showing the installed icon.
+2. If you still need that footage, right-click app > res > New > Image Asset.
+3. Choose Launcher Icons (Adaptive and Legacy). Keep the name ic_launcher.
+4. Foreground Layer: choose Image and select:
+   C:\Users\Jnuso\Downloads\ic_handcuffs.png
+5. Resize until the whole handcuff image fits inside the safe area.
+6. Background Layer: choose Color. Click the color rectangle and enter:
+   #00FFFF
+   This is cyan. Your current background resource contains #0033FF, which is
+   blue, so use #00FFFF when recreating the icon for the homework example.
+7. Check the preview shows black handcuffs on cyan. Click Next, then Finish.
+8. Save, stop the old run, and run the app. Show its icon in the app drawer.
+9. Tap the icon to show it opens CriminalIntent.
+
+LOGCAT:
+No Logcat demonstration is needed for this icon step.
+
+SAY:
+"I used the handcuff image as the foreground and cyan as the background.
+Image Asset Studio generates launcher resources for different sizes and
+shapes. This is the installed icon, and tapping it opens CriminalIntent."
+
+ONLY IF THE DUPLICATE COLOR ERROR RETURNS:
+Keep the color definition in:
+C:\Users\Jnuso\AndroidStudioProjects\3200\CriminalIntent\app\src\main\res\values\ic_launcher_background.xml
+It should contain one color named ic_launcher_background with value #00FFFF.
+If you also see that same named color in the file below, remove ONLY that
+duplicate color line, then rerun:
+C:\Users\Jnuso\AndroidStudioProjects\3200\CriminalIntent\app\src\main\res\values\colors.xml
+Do not delete the black or white color definitions.
+
+
+STEP 2 - SWITCH TO THE MANUAL JOB AND SHOW THE FIRST COUNT
+
+DO - OPEN CrimeListFragment.kt, using the FRAGMENT FILE path above:
+1. COMMENT OUT lines 50-59: the ENTIRE onViewCreated method.
+   Select all ten lines and press Ctrl+/ once.
+   Every line from the method declaration to its last brace should start //.
+   This turns OFF the repeatOnLifecycle version.
+
+2. UNCOMMENT line 15: remove only the FIRST // before the import.
+   It should begin:
+   import kotlinx.coroutines.Job
+   You can leave the explanatory comment at the end of the line.
+
+3. UNCOMMENT line 27: remove only the FIRST // before the property.
+   It should begin:
+   private var job: Job? = null
+
+4. Enable onStart and onStop by changing ONLY these two marker lines:
+   Line 64: change /* to // /*
+   Line 80: change */ to // */
+   The methods on lines 65-79 are now ACTIVE. Leave their bodies unchanged.
+   This turns ON the manual Job version.
+
+5. Enable the initial count log by changing ONLY these marker lines:
+   Line 31: change /* to // /*
+   Line 36: change */ to // */
+   The onCreate method on lines 32-35 is now ACTIVE.
+
+6. LEAVE lines 83-99 inside their ORIGINAL /* and */ block comment.
+   The onResume/onPause version must stay OFF for now.
+
+LOGCAT AND EMULATOR:
+1. Open Logcat and select your emulator.
+2. Paste this as one line in the Logcat filter box:
+   package:com.example.criminalintent tag:CrimeListFragment
+3. Save, stop the old app run, clear Logcat, and Run again.
+4. Stay inside the app for at least six seconds.
+
+LOOK FOR:
+   Total # of crimes in onCreate: 0
+   Job launching in onStart
+   Displayed 100 crimes
+
+SAY:
+"I disabled the repeatOnLifecycle method and enabled the manual Job version.
+The Job variable stores the handle returned when I launch the coroutine.
+OnStart starts loading, and onStop requests cancellation when the screen stops.
+I also enabled this initial size log. It reports zero at first because the
+delayed loading has not finished. After about five seconds, the list appears."
+
+
+STEP 3 - SHOW BOTH COUNTS AND EXPLAIN THE DELAY
+
+DO - OPEN CrimeListViewModel.kt, using the VIEWMODEL FILE path above:
+1. Do not change any code in this file. The required logs are already there.
+2. Show line 15: val crimes = mutableListOf<Crime>()
+3. Show lines 19-24: the coroutine that loads and stores the crimes.
+4. Point to line 26: the initial size log OUTSIDE that coroutine.
+5. Point to line 23: the completion size log INSIDE the coroutine.
+6. Scroll to line 31 and show delay(5000).
+
+LOGCAT AND EMULATOR:
+1. Replace the filter with this SINGLE LINE:
+   package:com.example.criminalintent (tag:CrimeListFragment | tag:CrimeListViewModel)
+2. Stop the app, clear Logcat, and Run again for a fresh ViewModel.
+3. Stay inside the app and wait at least six seconds.
+
+LOOK FOR:
+   Total # of crimes at end of init: 0
+   Total # of crimes in onCreate: 0
+   Job launching in onStart
+   ... about five seconds pass ...
+   Loading crimes finished. Total # of crimes: 100
+   Displayed 100 crimes
+
+The two completion messages can appear in either order.
+
+SAY:
+"The ViewModel starts with an empty list. This end-of-init log is outside the
+coroutine, so it can run before loading finishes and report zero. The log
+inside the coroutine runs after loading and reports 100.
+
+The five-second delay simulates a slow data source. It suspends the coroutine
+without freezing the interface and gives me time to leave before loading
+finishes. Delay also responds to cancellation.
+
+The ViewModel and fragment call loadCrimes separately in this example. The
+ViewModel message describes its stored list. The display message describes
+the separate list assigned to the fragment's adapter."
+
+
+STEP 4 - REMOVE onStop AND SEE WHETHER WORK CONTINUES
+
+DO - RETURN TO CrimeListFragment.kt:
+1. Keep all the settings from Step 2.
+2. Select ONLY lines 75-79: the ENTIRE onStop method.
+3. Press Ctrl+/ to COMMENT OUT those five lines.
+   They should look like this, with // before every line:
+
+   // override fun onStop() {
+   //     super.onStop()
+   //     Log.d(TAG, "Job getting canceled in onStop")
+   //     job?.cancel()
+   // }
+
+4. LEAVE onStart ACTIVE on lines 65-73.
+5. LEAVE onViewCreated COMMENTED OUT on lines 50-59.
+
+LOGCAT AND EMULATOR:
+1. Keep the filter showing BOTH tags from Step 3.
+2. Save, stop the app, clear Logcat, and Run again.
+3. As soon as the app opens, press the emulator's HOME button.
+   Do this within about two seconds, BEFORE the five-second delay finishes.
+4. Stay on the launcher for at least six seconds. Watch Logcat.
+
+LOOK FOR:
+   Job launching in onStart
+   Displayed 100 crimes
+
+The important observation is Displayed 100 crimes while the app is away.
+There should be no manual onStop cancellation message in this version.
+
+SAY IF THAT IS WHAT YOUR LOG SHOWS:
+"I removed onStop cancellation and pressed Home while loading was waiting.
+The display log still appeared while the app was in the background. The view
+can remain alive even though the screen is stopped. Its lifecycle scope ends
+when the view is destroyed, so stopping alone did not cancel this job.
+Returning launches another job in onStart. Replacing the stored Job variable
+does not cancel an older job, so repeated transitions can leave overlapping work."
+
+IF THE DISPLAY LOG DOES NOT APPEAR:
+Do not claim it completed. If the view was destroyed, say:
+"In this run, destroying the view canceled its lifecycle scope. Removing
+onStop does not prevent cancellation when the view itself is destroyed."
+Home is the intended test here because it normally leaves the view alive.
+
+
+STEP 5 - RESTORE onStop THEN USE BACK AND REOPEN
+
+DO - IN CrimeListFragment.kt:
+1. Select the SAME lines 75-79 and press Ctrl+/ again.
+2. The entire onStop method should now be UNCOMMENTED and ACTIVE.
+3. Confirm line 78 is active:
+   job?.cancel()
+4. Leave onStart ACTIVE. Leave onViewCreated OFF.
+
+LOGCAT AND EMULATOR:
+1. Keep the BOTH-TAGS filter.
+2. Save, stop the old run, clear Logcat, and Run again.
+3. As soon as the app opens, press BACK within about two seconds.
+   You must leave BEFORE the five-second load finishes.
+4. Wait on the launcher for at least six seconds.
+5. Point to the cancellation message.
+6. Tap your handcuff icon to reopen the app.
+7. Wait at least six seconds after reopening.
+
+LOOK FOR:
+   Job launching in onStart
+   Job getting canceled in onStop
+   [no Displayed 100 crimes for the pending UI load while you are away]
+   Job launching in onStart
+   Displayed 100 crimes
+
+A ViewModel completion log MAY still appear while you are away.
+The cancellation message means cancel was requested; it is not a separate
+confirmation message from the canceled coroutine.
+
+SAY:
+"With onStop restored, leaving requests cancellation of the pending UI job.
+Because I left during the delay, that load does not reach the adapter update.
+Reopening calls onStart, which creates a new Job and loads the list again.
+A canceled Job itself is not restarted; this is a new coroutine.
+
+The ViewModel load uses its own scope, so it can still finish while the UI job
+is canceled. Canceling this one Job does not cancel every coroutine in the app."
+
+REMEMBER:
+Back can background a root launcher activity rather than destroy it.
+Describe the callbacks you see. Do not claim Back always destroys the app.
+If you left after the list appeared, redo the test and leave sooner.
+
+
+STEP 6 - TRY onResume AND onPause
+
+DO - IN CrimeListFragment.kt:
+1. Turn OFF the whole onStart/onStop experiment:
+   Line 64: change // /* BACK to /*
+   Line 80: change // */ BACK to */
+   This block-comments BOTH methods again.
+
+2. Turn ON the onResume/onPause experiment:
+   Line 83: change /* to // /*
+   Line 99: change */ to // */
+   The methods on lines 84-98 are now ACTIVE.
+
+3. Keep the Job import on line 15 ACTIVE.
+4. Keep the job property on line 27 ACTIVE.
+5. Keep onViewCreated on lines 50-59 COMMENTED OUT.
+6. Leave the temporary onCreate count log ACTIVE for this test.
+
+LOGCAT AND EMULATOR:
+1. Keep the BOTH-TAGS filter.
+2. Save, stop the old run, clear Logcat, and Run again.
+3. Press HOME within about two seconds of the app opening.
+4. Wait away for at least six seconds.
+5. Reopen using the handcuff icon, then wait at least six seconds.
+
+LOOK FOR:
+   Job launching in onResume
+   Job getting canceled in onPause
+   Job launching in onResume
+   Displayed 100 crimes
+
+SAY:
+"I moved launching into onResume and cancellation into its sister method,
+onPause. This also works: leaving cancels the pending load, and returning
+starts a new one.
+
+The pairs use different lifecycle policies. Start and stop permit work while
+the screen is STARTED; resume and pause require it to be RESUMED. A screen can
+be started without being resumed, so the resume policy stops work sooner.
+These callbacks are in my Fragment because that is where the list is implemented."
+
+
+STEP 7 - RESTORE repeatOnLifecycle AND SHOW THE FINAL APP
+
+DO - IN CrimeListFragment.kt:
+1. Turn OFF onResume/onPause:
+   Line 83: change // /* BACK to /*
+   Line 99: change // */ BACK to */
+
+2. Confirm the first experiment remains OFF:
+   Line 64 is /* and line 80 is */.
+
+3. Comment the Job import on line 15 by restoring the leading //:
+   // import kotlinx.coroutines.Job // Uncomment for either manual HW4 experiment.
+
+4. Comment the Job property on line 27 by restoring the leading //:
+   // private var job: Job? = null // Uncomment for either manual HW4 experiment.
+
+5. Turn OFF the temporary onCreate observation:
+   Line 31: change // /* BACK to /*
+   Line 36: change // */ BACK to */
+
+6. Select lines 50-59 and press Ctrl+/ to REMOVE their leading //.
+   The entire onViewCreated method should now be UNCOMMENTED and ACTIVE.
+
+7. Point to these active statements:
+   Line 52: viewLifecycleOwner.lifecycleScope.launch
+   Line 53: repeatOnLifecycle(Lifecycle.State.STARTED)
+   Lines 54-55: load the list, then assign the adapter
+
+LOGCAT AND EMULATOR:
+1. Keep the BOTH-TAGS filter.
+2. Save, stop the old run, clear Logcat, and Run again.
+3. Press HOME within about two seconds.
+4. Wait away for at least six seconds. Then reopen with the icon.
+5. Wait at least six seconds after returning. Show the crime list.
+
+LOOK FOR:
+   Displayed 100 crimes AFTER returning and completing the new delay.
+   No manual "Job launching" or "Job getting canceled" messages.
+
+The separate ViewModel completion log may still appear while you are away.
+The old rows are not automatically cleared if a later load starts.
+
+SAY:
+"I restored repeatOnLifecycle using STARTED. It runs the loading block when
+the view reaches that state, cancels the block when it drops below that state,
+and launches a fresh block when the view returns.
+
+The outer view lifecycle scope is canceled when the view is destroyed. The
+inner repeatOnLifecycle block handles stopping and returning. I set it up
+once in onViewCreated for each view, instead of keeping a Job field and
+manually matching the launch and cancellation callbacks."
+
+
+STEP 8 - GIVE YOUR FINAL EXPLANATION
+
+DO:
+1. Keep the FINAL version from Step 7 active. Do not change more code.
+2. In CrimeListFragment.kt, point to the manual launch and cancel lines:
+   Line 68: job = viewLifecycleOwner.lifecycleScope.launch
+   Line 78: job?.cancel()
+   They are inside the disabled experiment now; explain what you tested.
+3. Point back to the active repeatOnLifecycle block on lines 50-59.
+4. Finish with the emulator showing the populated list.
+
+LOGCAT:
+Leave the final successful display message visible if convenient.
+No additional test is needed.
+
+SAY:
+"A Job represents the lifetime and cancellation state of coroutine work.
+Launch returns that handle, and cancel requests cancellation. A Job is not a
+dedicated thread. Cancellation is cooperative, which is why delay responds
+to it. Canceling a parent Job also cancels its child jobs.
+
+This experiment showed me that starting loading and finishing loading are
+different moments. It also showed why UI work needs lifecycle management.
+Without the manual cancellation, work can continue while the screen is stopped.
+
+RepeatOnLifecycle still uses coroutines and Jobs internally. It replaces my
+manual field and callback bookkeeping with automatic cancellation and relaunch
+at the chosen state. That reduces the chance of forgetting cancellation or
+starting competing lifecycle-controlled loads. I restored that final version,
+and the app displays the crimes after loading."
+
+END OF RECORDING.
+
+FINAL QUICK CHECK:
+- onViewCreated, lines 50-59: ACTIVE.
+- Job import, line 15: COMMENTED OUT.
+- Job property, line 27: COMMENTED OUT.
+- onCreate observation, lines 31-36: BLOCK-COMMENTED OUT.
+- onStart/onStop, lines 64-80: BLOCK-COMMENTED OUT.
+- onResume/onPause, lines 83-99: BLOCK-COMMENTED OUT.
+- onCreateView and onDestroyView: still ACTIVE.
+- No code changes were needed in CrimeListViewModel.kt for this recording.
