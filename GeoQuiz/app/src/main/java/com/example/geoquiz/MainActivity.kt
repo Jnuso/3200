@@ -2,6 +2,7 @@ package com.example.geoquiz
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +19,11 @@ class MainActivity : AppCompatActivity() {
 
         trueButton.setOnClickListener { view ->
             //do something when button is clicked
+            Toast.makeText(this, R.string.correct_toast, Toast.LENGTH_SHORT).show()
+        }
+        falseButton.setOnClickListener { view ->
+            // do something when button is clicked
+            Toast.makeText(this, R.string.incorrect_toast, Toast.LENGTH_SHORT).show()
         }
     }
 }
