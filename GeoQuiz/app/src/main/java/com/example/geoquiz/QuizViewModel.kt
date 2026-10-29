@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
 private const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
+private const val IS_CHEATER_KEY = "IS_CHEATER_KEY"
 
 class QuizViewModel(
     private val savedStateHandle: SavedStateHandle
@@ -17,6 +18,10 @@ class QuizViewModel(
         Question(R.string.question_americas, true),
         Question(R.string.question_asia, true)
     )
+
+    var isCheater: Boolean
+        get() = savedStateHandle.get<Boolean>(IS_CHEATER_KEY) ?: false
+        set(value) = savedStateHandle.set(IS_CHEATER_KEY, value)
 
     private var currentIndex: Int
         get() = savedStateHandle.get<Int>(CURRENT_INDEX_KEY) ?: 0
